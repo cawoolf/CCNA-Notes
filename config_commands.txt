@@ -1,0 +1,59 @@
+
+
+***Router Show Commands***
+
+--Use the "do" command to execute from any mode-- 
+
+R1# sh ip int brief --> Show all interfaces and status on a Router
+R1# show ip route --> Shows all ip routes on a router
+R1# show run --> Shows the running config. Press <enter> for more
+
+R1#default interface [interface-number]
+
+***Route Config Commands***
+
+R1(config-if)#ip address XXX.XXX.XXX.XXX xxx.xxx.xxx.xxx.xxx -> Confg IP address
+R1(config)# ip route "desitnation" "subnet" "next hop address" -> Add route
+R1(config)#no ip route 1.1.1.1 255.255.255.255 2.2.2.2 -> Delete ip route
+R1(config-if)#default interface gigabitEtherenet0/0/0
+
+R1(config)#ip route 0.0.0.0 0.0.0.0 192.168.5.49 -> Default route to internet
+
+***VLAN Commands - Switchport***
+SW1(config)#interface range g1/0 - 3
+SW1(config-if-range)#switchport mode access
+SW1(config-if-range)#switchport access vlan 10
+
+SW1(config)#do show vlan brief
+
+SW1(config)#vlan 20
+SW1(config-vlan)#name Sales
+
+***VLAN Commands - Trunkport***
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#switchport trunk encapsulation dot1q
+SW1(config-if)#switchport trunk allowed vlan vlan-id1, vlan-id2, ...
+SW1(config-if)#do show interfaces trunk
+
+***Sub Interface Commands - ROAS***
+Hostname(config)#interface FastEthernet0/1
+Hostname(config-if)#no ip address
+
+Hostname(config-if)#no shutdown
+
+Hostname(config)#interface FastEthernet0/1.1
+Hostname(config-if)#encapsulation dot1Q "vlan-id"
+Hostname(config-if)#ip address x.x.y.y < subnet mask >
+
+
+Hostname(config-if)#interface FastEthernet0/1.2
+Hostname(config-if)#encapsulation dot1Q 20
+Hostname(config-if)#ip address x.x.y.y < subnet mask >
+
+
+***Layer 3 Switching***
+Hostname(config)#ip routing
+Hostname(config-if)#no switchport
+Hostname(config)#interface vlan "vlan-id"
+Hostname(config-if)#ip address x.x.y.y < subnet mask > (DG)
+
