@@ -1,6 +1,8 @@
+*** Useful Commands ***
+Hostname(config)#no ip domain lookup
 
 
-***Router Show Commands***
+*** Router Show Commands ***
 
 --Use the "do" command to execute from any mode-- 
 
@@ -10,7 +12,7 @@ R1# show run --> Shows the running config. Press <enter> for more
 
 R1#default interface [interface-number]
 
-***Route Config Commands***
+*** Route Config Commands ***
 
 R1(config-if)#ip address XXX.XXX.XXX.XXX xxx.xxx.xxx.xxx.xxx -> Confg IP address
 R1(config)# ip route "desitnation" "subnet" "next hop address" -> Add route
@@ -29,7 +31,7 @@ SW1(config)#do show vlan brief
 SW1(config)#vlan 20
 SW1(config-vlan)#name Sales
 
-***VLAN Commands - Trunkport***
+*** VLAN Commands - Trunkport ***
 SW1(config-if)#switchport mode trunk
 SW1(config-if)#switchport trunk encapsulation dot1q
 SW1(config-if)#switchport trunk allowed vlan vlan-id1, vlan-id2, ...
@@ -51,9 +53,20 @@ Hostname(config-if)#encapsulation dot1Q 20
 Hostname(config-if)#ip address x.x.y.y < subnet mask >
 
 
-***Layer 3 Switching***
+*** Layer 3 Switching ***
 Hostname(config)#ip routing
 Hostname(config-if)#no switchport
 Hostname(config)#interface vlan "vlan-id"
 Hostname(config-if)#ip address x.x.y.y < subnet mask > (DG)
+
+*** STP Commands ***
+Hostname#show spanning-tree
+Hostname#show spanning-tree active
+Hostname#show spanning-tree summary
+Hostname#show spanning-tree vlan 1
+Hostname#show spanning-tree interface fa0/1
+
+
+
+
 
