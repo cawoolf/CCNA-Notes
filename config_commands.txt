@@ -1,3 +1,9 @@
+~~~****JIT CCNA Notes****~~~
+
+Have fun!
+
+
+----------------------------------------------------------------------------------------------------
 *** Useful Commands ***
 SW1(config)#no ip domain lookup
 SW1(config)#host name "SW1"
@@ -10,6 +16,7 @@ SW1#show interfaces status disabled
 
 --Use the "do" command to execute show from any mode-
 
+----------------------------------------------------------------------------------------------------
 *** Router Show Commands ***
 R1# sh ip int brief --> Show all interfaces and status on a Router
 R1# show ip route --> Shows all ip routes on a router
@@ -24,6 +31,7 @@ R1(config)#no ip route 1.1.1.1 255.255.255.255 2.2.2.2 -> Delete ip route
 
 R1(config)#ip route 0.0.0.0 0.0.0.0 192.168.5.49 -> Default route to internet
 
+----------------------------------------------------------------------------------------------------
 ***VLAN Commands - Switchport***
 SW1(config)#interface range g1/0 - 3
 SW1(config-if-range)#switchport mode access
@@ -40,6 +48,7 @@ SW1(config-if)#switchport trunk encapsulation dot1q
 SW1(config-if)#switchport trunk allowed vlan vlan-id1, vlan-id2, ...
 SW1(config-if)#do show interfaces trunk
 
+----------------------------------------------------------------------------------------------------
 ***Sub Interface Commands - ROAS***
 SW1(config)#interface FastEthernet0/1
 SW1(config-if)#no ip address
@@ -54,18 +63,22 @@ SW1(config-if)#interface FastEthernet0/1.2
 SW1(config-if)#encapsulation dot1Q 20
 SW1(config-if)#ip address x.x.y.y < subnet mask >
 
+-----------------------------------------------------------------------------------------------------
 *** Layer 3 Switching ***
 SW1(config)#ip routing
 SW1(config-if)#no switchport
 SW1(config)#interface vlan "vlan-id"
 SW1(config-if)#ip address x.x.y.y < subnet mask > (DG)
 
+----------------------------------------------------------------------------------------------------
+Day 21
 *** STP Commands ***
 SW1#show spanning-tree
 SW1#show spanning-tree active
 SW1#show spanning-tree summary
 SW1#show spanning-tree vlan 1
 SW1#show spanning-tree interface fa0/1
+SW1#show spanning-tree interface fa0/1 detail
 
 - Cisco switches operate in STP by default
 - STP is set on timers for BPDUs
@@ -106,11 +119,15 @@ SW1(config-if)#switchport mode access
 - By passes learning and listenign states and goes straight to fowarding
 - Switch ports need to be in access mode
 - Risk of causing Layer 2 loops if not careful with portast
+- Portfast is default in edge mode. Portfast network is an option, but not common
 
 SW1(config-if)#spanning-tree portfast default
 - Defaults all access ports to portfast
 
-***BPDU Gaurd***
+SW1(config-if)#spaning-tree portfast trunk
+- Portfast can be enable on trunk ports in specific situations such as ROAS, but it's not common
+
+***BPDU Gaurd/Filter***
 SW1(config-if)#interface g0/2
 SW1(config-if)#spanning-tree bpduguard enable
 - Cuases an interface that receives BPDUs from another switch to shut down. Prevents loops.
@@ -121,6 +138,22 @@ SW1(config)#spanning-tree portfast bpduguard default
 - Root Guard and Loop Guard are other STP features.
 - Probably don't need to know for CCNA, but be familar.
 
+SW1#show errdisabled recovery
+- Shows a list of root causes for errdisabled. BPDU guard is the most common
+
+SW1#show errdisabled recovery cause bpduguard
+- enable errdisabled recovery for ports disabled by a particular cause. bpdu in this case
+
+SW1(config-if)#spaning-tree bpdufilter enable
+- BPDU Filter stops a port from sending BPDUs. End hosts don't need to recieve BPDUs.
+- Security and performance concerns, although high level.
+- Disables STP on the port. Can cause permanent layer 2 loops so becareful!
+SW1(config)#spaning-tree portfast bpdufilter default
+- Only activates BPDU filter on portfast ports. The port will not send BPDUs
+- Best of both worlds. If the port recieves a BPDU, both portfast and filter are disabled. Will operate as an STP port
+- Recommened
+
+----------------------------------------------------------------------------------------------------
 
 
 
