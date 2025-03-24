@@ -90,10 +90,14 @@ rapid-pvst  Per-Vlan rapid spanning tree mode
 - Can set the modes
 
 SW1(config)#spanning-tree vlan 1 root primary
-SW1(confg)#do show spanning-tree
+SW1(config)#do show spanning-tree
 - Sets the primray root bridge
 - If another switches has a lower priority, 
 sets the target switch to 4096 less
+
+SW1(config)#spaning-tree vlan 1 priority 32768
+- Manually sets the priority of the switch
+- Set to 0 to make it the root bridge
 
 SW1(config)#spanning-tree vlan 1 root secondary
 SW1(confg)#do show spanning-tree
@@ -102,14 +106,16 @@ SW1(confg)#do show spanning-tree
 - STP Load-Balancing creates diffrenet STP topolgies for diffrenet vlan
 - Configure diffrenet root bridges for diffrenet vlans to load balance
 
+
 ***STP Port Settings***
 SW1(config)#spaning tree vlan 1 priority ?
-cost  Change an interface's per VLAN spanning tree path cost
+cost-Change an interface's per VLAN spanning tree path cost
 post-priority Change an interface's spanning tree port priority
 - Changing the cost or priority allows you to change STP outcome
 
 SW1(config)#spaning tree vlan 1 cost 200
 SW1(config)#spaning tree vlan 1 port-priority 32
+
 
 *** Portfast ***
 SW1(config-if)#interface g0/2
@@ -127,6 +133,7 @@ SW1(config-if)#spanning-tree portfast default
 SW1(config-if)#spaning-tree portfast trunk
 - Portfast can be enable on trunk ports in specific situations such as ROAS, but it's not common
 
+
 ***BPDU Gaurd/Filter***
 SW1(config-if)#interface g0/2
 SW1(config-if)#spanning-tree bpduguard enable
@@ -135,8 +142,6 @@ SW1(config-if)#spanning-tree bpduguard enable
 
 SW1(config)#spanning-tree portfast bpduguard default
 - Default BPDU Guard on portfast interfaces
-- Root Guard and Loop Guard are other STP features.
-- Probably don't need to know for CCNA, but be familar.
 
 SW1#show errdisabled recovery
 - Shows a list of root causes for errdisabled. BPDU guard is the most common
@@ -148,10 +153,47 @@ SW1(config-if)#spaning-tree bpdufilter enable
 - BPDU Filter stops a port from sending BPDUs. End hosts don't need to recieve BPDUs.
 - Security and performance concerns, although high level.
 - Disables STP on the port. Can cause permanent layer 2 loops so becareful!
+
 SW1(config)#spaning-tree portfast bpdufilter default
 - Only activates BPDU filter on portfast ports. The port will not send BPDUs
 - Best of both worlds. If the port recieves a BPDU, both portfast and filter are disabled. Will operate as an STP port
 - Recommened
+
+
+***Root Guard Notes***
+- Prevents a port from becoming a root port if it receives a superior BPDU
+- Ensure that the root bridge remians in your LAN, configure Root Guard on
+the ports that connect to switches outside of your control
+- If a Root Guard enabled port receives a BPDU, it well enter Broken state
+and errdisabled. 
+- To resolve issue, the port must stop recieving BPDUs
+- Ports automatically re-enabled if issue is resolved (IE the suspect switch increase it's priority)
+    - Superior BDPUs need to be stopped
+
+
+***Root Guard Commands***
+SW1(config-if)#spanning-tree guard root
+- Enables root guard on the interface
+
+
+***Loop Guard Notes***
+- Protects the network from loops by disabling a port if it unexpectedly stops receiving BPDUs
+- Ensures the port does not mistkakenly enter the Forwarding state
+- Used a lot when unidirectional links occur. Error where transmition only occurs in one direction.
+    - Occurs when devices fail to detect physical problems in the fiber. Still reads up/up
+- Loop Guard and Root Guard are mutually exclusive
+
+***Loop Guard Commands***
+SW1(config-if)#spanning-tree guard loop
+- Enable loop guard on single port
+
+SW1(config)#spanning-tree guard loopguard default
+- Enables loop guard on all ports
+- Should be enalbed on Root and Non-Designated ports 
+- IE Ports that are supposed to receive BPDUs
+
+SW1(config-if)#spanning-tree guard none
+- Disables loop guard on specific port 
 
 ----------------------------------------------------------------------------------------------------
 
