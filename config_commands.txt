@@ -181,7 +181,9 @@ SW1(config-if)#spanning-tree guard root
 - Ensures the port does not mistkakenly enter the Forwarding state
 - Used a lot when unidirectional links occur. Error where transmition only occurs in one direction.
     - Occurs when devices fail to detect physical problems in the fiber. Still reads up/up
+- Loop Guard is meant to prevent Non-Designated ports from becoming Designated Ports.
 - Loop Guard and Root Guard are mutually exclusive
+
 
 ***Loop Guard Commands***
 SW1(config-if)#spanning-tree guard loop
