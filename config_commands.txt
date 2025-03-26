@@ -108,13 +108,13 @@ SW1(confg)#do show spanning-tree
 
 
 ***STP Port Settings***
-SW1(config)#spaning tree vlan 1 priority ?
+SW1(config-if)#spaning tree vlan 1 priority ?
 cost-Change an interface's per VLAN spanning tree path cost
 post-priority Change an interface's spanning tree port priority
 - Changing the cost or priority allows you to change STP outcome
 
-SW1(config)#spaning tree vlan 1 cost 200
-SW1(config)#spaning tree vlan 1 port-priority 32
+SW1(config-if)#spaning tree vlan 1 cost 200
+SW1(config-if)#spaning tree vlan 1 port-priority 32
 
 
 *** Portfast ***
