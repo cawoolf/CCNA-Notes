@@ -204,3 +204,25 @@ Day 22 - Rapid STP
 
 ----------------------------------------------------------------------------------------------------
 Day 23 - EtherChannel
+
+SW1#show etherchannel summary
+- Shows info about all etherchannels configured on the switch
+- Member ports can have diffrenet etherchannel status flags
+- Want to see SU on the Port-Channel, and P flags on the memeber ports
+
+SW1(config-if)#channel-group 1 mode ?
+- Show diffrenet EtherChannel modes for the ports.
+- Correct modes for the port must be configured to form an etherchannel
+
+SW1#show etherchannel load-balance
+- Shows to load balance method for the etherchannel
+
+SW1(config)#port-channel load-balance ?
+- Shows all load-balancing techniques to configure for the whole switch
+
+SW1(config)#port-channel load-balance src-dst-ip
+- Sets to load-balance to destinaton IP address
+
+***EtherChannel Notes***
+> Groups ports together into a signal interface to increase bandwith and speed
+
