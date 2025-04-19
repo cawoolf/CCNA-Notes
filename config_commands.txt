@@ -226,3 +226,71 @@ SW1(config)#port-channel load-balance src-dst-ip
 ***EtherChannel Notes***
 > Groups ports together into a signal interface to increase bandwith and speed
 
+----------------------------------------------------------------------------------------------------
+Day 25 - EIGRP
+
+*** Loopbacks ***
+R1(config)#interface loopback 0
+R1(config-if)#ip address 1.1.1.1 255.255.255.255
+- Common to use a 255.255.255.255 mask for loopbacks
+
+***EIGRP***
+R1#show ip protocols
+R1#show ip eigrp neighbors
+R1#show ip route eigrp
+R1#show ip route eigrp topology
+
+R1(config-if)#router eigrp 100
+- Can config directly from interface
+- AS Number must match for two routers to become EIGRP neighbors
+
+R1(config-router)#network 0.0.0.0 255.255.255.255
+- Enables EIGRP on all interfaces. Not always recommended.
+- Uses a wildcard subnet mask. All ip address are in the 0.0.0.0 range,
+so activates on all networks.
+
+R1(config-router)#network 10.0.13.0 0.0.0.3
+- Set specfic network to advertise. 
+- Wildcard mask 0.0.0.3 is a /30 subnet
+R1(config-router)#network 1.1.1.1 0.0.0.0
+- Advertise loopbacks as well. 
+- Wildcard Mask 0.0.0.0 is a /32 subnet
+
+R1(config-router)#no auto-summary
+- Disables auto-summary of networks. Recommended/Necessary
+
+R1(config-router)#passive-interface g0/0
+R1(config-router)#passive-interface loopback0
+- Configure interfaces that are connected to end hosts as passive
+- Prevents to router from wasting resources, and sending EIGRP messages
+out of those interfaces
+
+R1(config-router)#variance 2
+- Set the variance on EIGRP to allow for uneven loading balancing.
+
+*** Notes ***
+- EIGRP uses bandwith and delay to calculate metric
+- Bandwith of the slowest link + the delay of all links
+- Fesible distance = this routers metric value to the routes desitination
+- Reported Distance = The neighbors metric value to the routes desitnation
+    - Also know as Advertised Distance
+    - Administrative Distance is used to compare routes from diffrenet protocols
+
+P 192.168.4.0/24, 1 successor, FD is 28672
+    via 10.0.12.2 (28672 - FD/ 28416 - RD), G0/0
+    via 10.0.13.2 (30976 - FD/28416 - RD), FA1/0
+
+- 1st number is Fesiable Distance
+- 2nd is Reported Distance
+- Successor = the route with the lowest FD to the desitination (best route)
+- Fesible Successor = an alternate route to the desitination. Must meet the feasiblity condition
+    - Route is consided Feasible when it's RD < Succesor FD
+- FD and RD are essentially a loop prevention mechanism
+
+- Variance 1 = only ECMP load-balancing will be perfromed
+    - Load balance won't occur if routes have diffrent FDs
+- Increase variance (FD * X) allows of load balancing on routes with higher FD
+    - Unequal cost-load balancing only occurs on routes that are Fesiable Succesors
+    - Both routes will then appear in the routing table
+    - Better routes will still recieve more traffic
+
