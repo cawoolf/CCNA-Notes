@@ -35,7 +35,7 @@ Broadcast -> 192.168.5.47
 Next -> 192.168.5.48
 
 vlan -> Point-To-Point
-Network -> 192.168.5.48
+Network -> 192.168.5.48/32
 Mask -> 255.255.255.252
 First -> 192.168.5.49
 Last (DG) -> 192.168.5.50
@@ -43,7 +43,7 @@ Broadcast -> 192.168.5.51
 Next -> 192.168.5.52
 
 vlan -> P to P
-Network -> 192.168.5.52
+Network -> 192.168.5.52/32
 Mask -> 255.255.255.252
 First -> 192.168.5.53
 Last (DG) -> 192.168.5.54

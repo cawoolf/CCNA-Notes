@@ -268,6 +268,16 @@ out of those interfaces
 R1(config-router)#variance 2
 - Set the variance on EIGRP to allow for uneven loading balancing.
 
+R1(config)#no router eigrp 100
+- Deletes EIGRP from the router
+
+R1(config)#router eigrip 100
+R1(config-router)#shutdown
+- Shutsdown EIGRP
+
+R1#clear ip route *
+-Clears all IP routes
+
 *** Notes ***
 - EIGRP uses bandwith and delay to calculate metric
 - Bandwith of the slowest link + the delay of all links
@@ -280,8 +290,8 @@ P 192.168.4.0/24, 1 successor, FD is 28672
     via 10.0.12.2 (28672 - FD/ 28416 - RD), G0/0
     via 10.0.13.2 (30976 - FD/28416 - RD), FA1/0
 
-- 1st number is Fesiable Distance
-- 2nd is Reported Distance
+- 1st number is Fesiable Distance (FD)
+- 2nd is Reported Distance (RD)
 - Successor = the route with the lowest FD to the desitination (best route)
 - Fesible Successor = an alternate route to the desitination. Must meet the feasiblity condition
     - Route is consided Feasible when it's RD < Succesor FD
@@ -293,4 +303,40 @@ P 192.168.4.0/24, 1 successor, FD is 28672
     - Unequal cost-load balancing only occurs on routes that are Fesiable Succesors
     - Both routes will then appear in the routing table
     - Better routes will still recieve more traffic
+
+----------------------------------------------------------------------------------------------------
+Day 26 - OSPF
+
+R1(config-router)#router ospf 4
+- Process ID after ospf. Only specific to the router. Other routers
+don't care
+
+R1(config-router)#network 0.0.0.0 255.255.255.255 area 0
+- Network command to active OSPF on interfaces/networks.
+- Smilar to EIGRP. Useses wild card mask
+- Area command comes after. Sub divide OSPF networks into areas
+for better design.
+
+R1(config-router)#network 10.0.34.1 0.0.0.0 area 0
+- Can configure on specific networks and point-to-point connections
+
+R1(config-router)#passive-interface g0/0
+- Similar to EIGRP in that edge interfaces with end hosts should be passive
+- Applies to loopbacks topolgies
+- Prevents router from sending OSPF messages on those interfaces.
+
+R1(config-router)#default-information originate
+- Tells the router to advertise a default route
+R1(config-router)#ip route 0.0.0.0 0.0.0.0 203.0.113.1
+
+R1#show ip osfp database
+- Shows the Link State database
+
+R1#show ip ospf neighbor
+- Shows the routers ospf neighbors
+
+R1#show ip ospf interface
+
+
+
 
