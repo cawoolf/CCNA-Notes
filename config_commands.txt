@@ -264,6 +264,7 @@ R1(config-router)#passive-interface loopback0
 - Configure interfaces that are connected to end hosts as passive
 - Prevents to router from wasting resources, and sending EIGRP messages
 out of those interfaces
+R1(config-router)#passive-interface default
 
 R1(config-router)#variance 2
 - Set the variance on EIGRP to allow for uneven loading balancing.
@@ -305,7 +306,17 @@ P 192.168.4.0/24, 1 successor, FD is 28672
     - Better routes will still recieve more traffic
 
 ----------------------------------------------------------------------------------------------------
-Day 26 - OSPF
+Day 26/27 - OSPF
+
+R1#show ip osfp database
+- Shows the Link State database
+
+R1#show ip ospf neighbor
+- Shows the routers ospf neighbors
+
+R1#show ip ospf interface
+
+R1(config)#no router ospf 1
 
 R1(config-router)#router ospf 4
 - Process ID after ospf. Only specific to the router. Other routers
@@ -329,14 +340,16 @@ R1(config-router)#default-information originate
 - Tells the router to advertise a default route
 R1(config-router)#ip route 0.0.0.0 0.0.0.0 203.0.113.1
 
-R1#show ip osfp database
-- Shows the Link State database
+R1(config)#interface range g0/0 - 3
+R1(config-if-range)#ip ospf 1 area 0
+- Enables ospf on the target interfaces
+- Alternative to using the network command
 
-R1#show ip ospf neighbor
-- Shows the routers ospf neighbors
+R1(config-router)#auto-cost reference-bandwidth ?
+- Shows the cost commands for the ospf router
 
-R1#show ip ospf interface
-
-
-
+R1(config-router)#auto-cost reference-bandwidth 10000
+- Sets the refernce cost
+- Cost = reference-bandwidth/interface-speed
+- All routers on the ospf area should have the same refernce speed
 
