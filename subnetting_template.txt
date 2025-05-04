@@ -1,11 +1,12 @@
 ***Subnetting Template***
-vlan -> 
 Network ->
 Mask ->
 First ->
 Last (DG) ->
-Broadcast ->
 Next ->
+Broadcast ->
+vlan ->
+
 
 
 

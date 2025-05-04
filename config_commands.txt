@@ -308,7 +308,7 @@ P 192.168.4.0/24, 1 successor, FD is 28672
     - Better routes will still recieve more traffic
 
 ----------------------------------------------------------------------------------------------------
-Day 26/27 - OSPF
+Day 26/27/28 - OSPF
 
 R1#show ip protocols
 R1#show ip ospf
@@ -364,3 +364,13 @@ R1(config-router)#auto-cost reference-bandwidth 10000
 - Cost = reference-bandwidth/interface-speed
 - All routers on the ospf area should have the same refernce speed
 
+***Notes**
+OSPF Neighbor Requirements
+1) Area number must match
+2) Interfaces must be in the same subnet
+3) OSPF process must not be shutdown
+4) OSFP Router IDs must be unique
+5) Hello and Dead timers must match
+6) Authentication settings must match
+7) IP MTU settings ust match - Can still form neighbors, but malfunctions
+8) OSFP Network Type must match - Can still form neighbors, but malfunctions
