@@ -50,18 +50,19 @@ SW1(config-if)#do show interfaces trunk
 
 ----------------------------------------------------------------------------------------------------
 ***Sub Interface Commands - ROAS***
-SW1(config)#interface FastEthernet0/1
-SW1(config-if)#no ip address
+- Needed for routing between vlan's on devices that are only Level 2 aware
+R1(config)#interface FastEthernet0/1
+R1(config-if)#no ip address
 
-SW1(config-if)#no shutdown
+R1(config-if)#no shutdown
 
-SW1(config)#interface FastEthernet0/1.1
-SW1(config-if)#encapsulation dot1Q "vlan-id"
-SW1(config-if)#ip address x.x.y.y < subnet mask >
+R1(config)#interface FastEthernet0/1.1
+R1(config-if)#encapsulation dot1Q "vlan-id"
+R1(config-if)#ip address x.x.y.y < subnet mask >
 
-SW1(config-if)#interface FastEthernet0/1.2
-SW1(config-if)#encapsulation dot1Q 20
-SW1(config-if)#ip address x.x.y.y < subnet mask >
+R1(config-if)#interface FastEthernet0/1.2
+R1(config-if)#encapsulation dot1Q 20
+R1(config-if)#ip address x.x.y.y < subnet mask >
 
 -----------------------------------------------------------------------------------------------------
 *** Layer 3 Switching ***
