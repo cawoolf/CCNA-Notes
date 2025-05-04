@@ -233,6 +233,7 @@ Day 25 - EIGRP
 R1(config)#interface loopback 0
 R1(config-if)#ip address 1.1.1.1 255.255.255.255
 - Common to use a 255.255.255.255 mask for loopbacks
+- Are often used as the router Id?
 
 ***EIGRP***
 R1#show ip protocols
@@ -308,19 +309,28 @@ P 192.168.4.0/24, 1 successor, FD is 28672
 ----------------------------------------------------------------------------------------------------
 Day 26/27 - OSPF
 
+R1#show ip protocols
+R1#show ip ospf
+
 R1#show ip osfp database
 - Shows the Link State database
 
 R1#show ip ospf neighbor
 - Shows the routers ospf neighbors
 
-R1#show ip ospf interface
+R1#show ip ospf interface gigabitEtherenet0/0/0
 
 R1(config)#no router ospf 1
 
 R1(config-router)#router ospf 4
 - Process ID after ospf. Only specific to the router. Other routers
 don't care
+
+R1(config-router)#router-id 1.1.1.1
+- Usually the ID is a loopback interface
+
+R1# clear ip ospf Process
+- Clears the OSPF process to reassign router Id
 
 R1(config-router)#network 0.0.0.0 255.255.255.255 area 0
 - Network command to active OSPF on interfaces/networks.
