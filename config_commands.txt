@@ -374,3 +374,36 @@ OSPF Neighbor Requirements
 6) Authentication settings must match
 7) IP MTU settings ust match - Can still form neighbors, but malfunctions
 8) OSFP Network Type must match - Can still form neighbors, but malfunctions
+
+----------------------------------------------------------------------------------------------------
+Day 29 Configuring HSRP
+- Hot Standby Router protocols
+- Configures a back up router for the network
+
+R1#show standby
+- Shows HSRP information
+
+R1(config-if)#standby version 2
+- Configures HSRP on the interface with the targer version
+- Versions must match or else there will be errors
+
+R1(config-if)#standy ?
+- Shows all options
+- Good to match the group number with the vlan number
+R1(config-if)#standby 1 ip 10.0.1.254
+- Sets the Virtual IP Address for the interface
+- Both the Master Router and the Backup must have the same VIP
+
+R1(config-if)#standby 1 priority 200
+- Customizes the priority for the interface
+
+R1(config-if)#standby 1 preempt
+- Enables preemtion 
+- Causes the router with the highest priority to take back the Master
+
+C:\>arp -a
+- Notice that both the original gateway, and the virtual ip gate way on
+end hosts
+
+C:\>tracert 8.8.8.8
+- Shows the hops, notice the actual hop ips for the gateways.
