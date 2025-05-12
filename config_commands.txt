@@ -211,9 +211,10 @@ SW1#show etherchannel summary
 - Member ports can have diffrenet etherchannel status flags
 - Want to see SU on the Port-Channel, and P flags on the memeber ports
 
-SW1(config-if)#channel-group 1 mode ?
+SW1(config-if-range)#channel-group 1 mode ?
 - Show diffrenet EtherChannel modes for the ports.
 - Correct modes for the port must be configured to form an etherchannel
+- Use active to enable etherncannel
 
 SW1#show etherchannel load-balance
 - Shows to load balance method for the etherchannel
