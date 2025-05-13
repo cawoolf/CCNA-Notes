@@ -323,6 +323,7 @@ R1#show ip ospf neighbor
 R1#show ip ospf interface gigabitEtherenet0/0/0
 
 R1(config)#no router ospf 1
+- Removes OSPF
 
 R1(config-router)#router ospf 4
 - Process ID after ospf. Only specific to the router. Other routers
