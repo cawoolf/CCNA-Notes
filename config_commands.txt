@@ -409,3 +409,15 @@ end hosts
 
 C:\>tracert 8.8.8.8
 - Shows the hops, notice the actual hop ips for the gateways.
+
+----------------------------------------------------------------------------------------------------
+Day 31 Configuring IPv6
+
+R1#show ipv6 interface brief
+- shows the status of ipv6 enable interfaces
+
+R1(config-if)#ipv6 address 2001:DB8:0:1::1/64
+- Adds an IPv6 address to the interface
+
+R1(config)#ipv6 unicast-routing
+- Enables ipv6 routing on the router
