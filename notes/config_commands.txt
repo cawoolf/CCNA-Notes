@@ -411,7 +411,7 @@ C:\>tracert 8.8.8.8
 - Shows the hops, notice the actual hop ips for the gateways.
 
 ----------------------------------------------------------------------------------------------------
-Day 31 Configuring IPv6
+Day 31 & 32 Configuring IPv6
 
 R1#show ipv6 interface brief
 - shows the status of ipv6 enable interfaces
@@ -421,3 +421,13 @@ R1(config-if)#ipv6 address 2001:DB8:0:1::1/64
 
 R1(config)#ipv6 unicast-routing
 - Enables ipv6 routing on the router
+
+R1(config-if)#ipv6 address 2001:DB8::/64 eui-64
+- Configures an EUI-64 on an interface
+
+R1(config-if)#ipv6 enable
+- Configures a link local address on the interface
+
+R1(config)#ipv6 route 2001:db8:0:1::/64 g0/0 FE80::201:63FF:FEB0:B801
+- Configure a static route for ipv6
+- Must specify the exit interface for link local next hops
