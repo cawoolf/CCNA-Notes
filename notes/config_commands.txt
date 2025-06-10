@@ -432,3 +432,39 @@ R1(config)#ipv6 route 2001:db8:0:1::/64 g0/0 FE80::201:63FF:FEB0:B801 <AD>
 - Configure a static route for ipv6
 - Must specify the exit interface for link local next hops
 - Optional Administrative Distance
+
+----------------------------------------------------------------------------------------------------
+Day 34 - ACLs
+
+- Standard ACLs should be configured as close to the desitination 
+as possible
+- ACLs implicitly deny all traffic that is not specified.
+
+R1#show access-lists
+
+R1(config-router)#ip access-list standard [NAME]
+- NAME is used to refernce access lists. Required? For named lists yes.
+R1(config-std-nacl)#permit 172.16.1.1
+- Allows access for a single host
+R1(config-std-nacl)#deny any
+- Denies all hosts besides the one specified
+- Not always neede, but provides assurance
+
+R1(config-if)#ip access-group [NAME] out
+- Applies the access-list to the interface
+- The out keyword, filters traffice that is coming OUT of the interface
+
+R1(config-std-nacl)#deny 172.16.2.0 0.0.0.255
+- Denies traffice from a particular network
+- Uses wildcard mask
+- Also needs to be applied to an interface
+
+R1(config-router)#access-list 1 deny 172.16.1.0 0.0.0.255
+R1(config-router)#access-list 1 permit any
+R1(config-if)#ip acces-group 1 out
+- Number access-lists don't need a name
+- No IP keyword
+- Remember order of ACLs commands matter
+- Also need to be applied to interface
+
+
