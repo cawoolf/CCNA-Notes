@@ -434,7 +434,7 @@ R1(config)#ipv6 route 2001:db8:0:1::/64 g0/0 FE80::201:63FF:FEB0:B801 <AD>
 - Optional Administrative Distance
 
 ----------------------------------------------------------------------------------------------------
-Day 34 - ACLs
+Day 34/34 - Standard ACLs/Extended ACLs
 
 - Standard ACLs should be configured as close to the desitination 
 as possible
@@ -450,8 +450,8 @@ R1(config-std-nacl)#deny any
 - Denies all hosts besides the one specified
 - Not always neede, but provides assurance
 
-R1(config-if)#ip access-group [NAME] out
-- Applies the access-list to the interface
+R1(config-if)#ip access-group {NUMBER | NAME} out
+- Applies the numbered or named access-list to the interface
 - The out keyword, filters traffice that is coming OUT of the interface
 
 R1(config-std-nacl)#deny 172.16.2.0 0.0.0.255
@@ -461,10 +461,72 @@ R1(config-std-nacl)#deny 172.16.2.0 0.0.0.255
 
 R1(config-router)#access-list 1 deny 172.16.1.0 0.0.0.255
 R1(config-router)#access-list 1 permit any
-R1(config-if)#ip acces-group 1 out
-- Number access-lists don't need a name
+- Numbered access-lists don't need a name
 - No IP keyword
 - Remember order of ACLs commands matter
+
+R1(config-if)# interface g0/0
+R1(config-if)#ip access-group 1 out
 - Also need to be applied to interface
 
+R1(config)#ip access-list resequence number 10 10
+- resequence the ACEs inside the numbered ACL
+- In this case renmae the first entry to 10, and then add 
+10 to every entry after that
+- Good for making edits or inserting ACEs into the list
 
+R1(config)# access-list number {permit | deny} protocol src-ip [host] dest-ip
+- Creates an extened ACL on a numbered access-list
+- src-ip uses a wild card mask.
+- dest-ip can be a end host or network with wild card mask
+- Classic extened is 100-199
+- For extened range 2000-2699
+- Still apply it to an interface 
+
+
+
+R1(config)# ip access-list extended {name | number}
+R1(config-ext-nacl)# [seq-num] {permit | deny} [eq] protocol src-ip [eq] dest-ip
+- Creates an extened ACL on named access-list
+- { } are required, [ ] are optional
+- src-ip = Source IP
+- dest-ip = Desitination IP
+- protocol = Layer 4 encapsulation type TCP, UDP, IPMI
+- [seq-num] = Number of the ACE inside the ACL
+- [eq] = Specify the port numbers to deny on src/dest ip
+
+
+R1(config-if)#ip access-group {NUMBER | NAME} out
+- Applies the numbered or named access-list to the interface
+- The out keyword, filters traffice that is coming OUT of the interface
+
+
+R1(config)# no access-list 1 (101 - 199 Extended)
+R1(confg)# no ip access-list [EXTENDED] name
+- Deletes access lists
+
+****Extra Notes for ACLs*****
+- Remember ACLs have an implict deny, and normally need a any ACE
+
+Common Protocls for ACLs
+- ip, tcp, udp, icmp, gre, ospf, eigrp..
+
+Common Port Numbers by Protocol
+TCP = Transmition Control Protocal (Layer 4)
+- FTP Data (20)
+- FTP Control(21)
+- SSH (22)
+- HTTP (80)
+- POP3 (110)
+- HTTPS (443)
+
+UDP = User Datagram Protocols
+- DHCP Server (67)
+- DCHP Client (68)
+- TFTP (69)
+- SNMP agent (161)
+- SNMP manager (162)
+- Syslog (514)
+
+TCP & UDP
+- DNS (53)
