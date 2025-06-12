@@ -434,7 +434,7 @@ R1(config)#ipv6 route 2001:db8:0:1::/64 g0/0 FE80::201:63FF:FEB0:B801 <AD>
 - Optional Administrative Distance
 
 ----------------------------------------------------------------------------------------------------
-Day 34/34 - Standard ACLs/Extended ACLs
+Day 34/35 - Standard ACLs/Extended ACLs
 
 - Standard ACLs should be configured as close to the desitination 
 as possible
@@ -530,3 +530,50 @@ UDP = User Datagram Protocols
 
 TCP & UDP
 - DNS (53)
+
+----------------------------------------------------------------------------------------------------
+Day 36 - CDP & LLDP 
+
+- Layer 2 discovery protocol
+- CDP is Cisco propritary, LLDP is industry standard
+- CDP Globally enabled by default for Cisco devices and interfaces
+
+- LLDP is default disable on Cisco devices
+- Needs to enable globably and on the interface
+- Both LLDP and CDP can be enable at the same time
+- LLDP Messages are perdoically sent to the
+ multicast MAC address 0180.C200.00E. 
+
+-Show commands for CDP
+R1#show cdp 
+R1#show cdp traffic
+R1#show cdp interface
+R1#show cdp neighbors
+R1#show cdp neighbors detail
+R1#show entry name
+
+- Config commands incase you want to modify CDP
+R1(config)# [no] cdp run
+R1(config)# [no] cdp enable
+
+R1(config)# cdp timer seconds
+R1(config)# cdp holdtime seconds
+R1(config)# [no] cdp advertise-v2
+
+- LLDP Config Commands
+R1(config)# lldp run
+- Globally enable lldp
+
+R1(config-if)# lldp transmit
+R1(config-if)# lldp receive
+- Enables llpd on the interfaces
+
+R1(config)# lldp timer seconds
+R1(config)# lldp holdtime seconds
+R1(config)# lldp reinit seconds
+
+- LLDP Show Commands
+R1# show lldp traffic
+R1# show lldp neighbors 
+R1# show lldp neighbors details
+
