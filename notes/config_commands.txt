@@ -577,3 +577,58 @@ R1# show lldp traffic
 R1# show lldp neighbors 
 R1# show lldp neighbors details
 
+----------------------------------------------------------------------------------------------------
+Day 37 - NTP
+
+- Network Time Protocls
+- Devices must have a sync'd clock for proper network function
+- Most important reason for engineers is for accurate logs for troubleshooting
+- All devices have an internal clock in UTC
+
+- Show commands
+R1#show clock
+R1#show clock detail
+R1#show logging
+
+- Config Commands
+R1#clock set {time} {day} {month} {year}
+- Manually set the device time
+- Configures the software clock
+
+R1#calendar set {time} {day} {month} {year}
+- Configures the hardware clock
+- Normally you want to sync the clock and calendar
+
+R1#clock update-calendar
+- Sycns the calendar to the clock time
+
+R1#clock read-calendar
+- syncs the clock to the calendar time.
+
+R1(config)#clock timezone {time-zone name} {minutes}
+- Names the timezone
+- Sets the timezone with minutes off from UTC
+
+R1(config)#clock summer-time recurring {week} {day} {month} {time}
+- Configures start of recurring day-light savings time
+- Enter a second command with similar params for the end time
+
+!Basic Configuration Commands Summary
+R1(config)# ntp server ip-address [prefer]
+R1(config)# ntp peer ip-address
+R1(config)# ntp update-calender
+R1(config)# ntp master [stratum]
+- Turns the router in a stratum 1 master server
+R1(config)# ntp source interface
+
+!Basic Show Commands Summary
+R1(config)# show ntp associations
+R1(config)# show ntp status
+
+!Basic Authentication Commands
+R1(config)# ntp authenticate
+R1(config)# ntp authentication-key key-number md5 key
+R1(config)# ntp trusted-key key-number
+R1(config)# ntp server ip-address key key-number
+R1(config)# ntp peer ip-address key key-number
+
