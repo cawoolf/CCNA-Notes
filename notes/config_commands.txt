@@ -341,6 +341,10 @@ R1(config-router)#network 0.0.0.0 255.255.255.255 area 0
 - Area command comes after. Sub divide OSPF networks into areas
 for better design.
 
+R1(config-if)#interface GigabitEthernet0/1
+R1(config-if)# ip ospf 1 area 0
+
+
 R1(config-router)#network 10.0.34.1 0.0.0.0 area 0
 - Can configure on specific networks and point-to-point connections
 
