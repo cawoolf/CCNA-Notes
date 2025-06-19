@@ -668,4 +668,57 @@ R1(config)#no ip domain lookup
 R1(config)#show hosts
 - Shows all records in the host table
 
+----------------------------------------------------------------------------------------------------
+Day 39 - DHCP
 
+
+R1(config)#ip dhcp exclude-address {ipv4-address range}
+- Specify a range of addresses that won't be given to DHCP clients
+
+R1(config)#ip dhcp pool {name}
+- Create a DHCP pool
+
+R1(dhcp-config)#network {network ipv4 address} {subnet mask or prefix}
+- Specify the subnet ofaddresses to be assigned to clients
+- Does not assign excluded ips
+
+R1(dhcp-config)#dns-server {ipv4-address}
+- Specify the DNS server that DHCP clients should use
+
+R1(dhcp-config)#domain-name {name}
+- Specify the domain name of the network
+-IE PC1=pc1.yournetworkname.com
+
+R1(dhcp-config)#default-router {ipv4 address of interface}
+- Specify the default gateway for that pool of ip addresses
+
+R1(dhcp-config)#lease {days} {hours} {minutes}
+- Specify how long the lease lasts untill it
+expires/renews
+
+R1(config)#interface g0/1
+R1(config-if)#ip helper-address {ipv4 address of the DHCP server}
+- Configure the ipv4 address of the DHCP server as 
+the 'helper' address
+- Routes DHCP requests from the clients to DHCP Server
+- Also known as the relay agent
+- Configured on the interface connected to the DHCP clients
+
+R1(config-if)#ip address dhcp
+- Uses DHCP to assign an address to the interface
+
+- Useful show methods
+R1#show ip dhcp pool
+R1#show ip dhcp binding
+R1#show running-config | include excluded-address
+R1#show running-config | section dhcp
+
+
+- Command line prompts for Windows
+C:\>ipconfig /renew
+- Gets an ip addres from DHCP
+
+C:\>ipconfig /release
+- Releases he IP address from the client back to the pool
+
+C:\>ipconfig /all
