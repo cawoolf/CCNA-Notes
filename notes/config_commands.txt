@@ -722,3 +722,34 @@ C:\>ipconfig /release
 - Releases he IP address from the client back to the pool
 
 C:\>ipconfig /all
+
+----------------------------------------------------------------------------------------------------
+Day 42 - SSH
+
+SW1#show version
+
+SW1# show ip SSH
+
+SW1(config)# ip default-gateway {ip-address}
+
+SW1(config)# line con 0
+
+SW1(config)# line vty 0 15
+
+SW1(config)# crypto key generate rsa 
+
+SW1(config)# ip ssh version 2
+
+SW1(config-line)# login [local]
+
+SW1(config-line)# transport input [protocols | all | none]
+
+SW1(config-line)# exec-timeout {minutes} {seconds}
+
+SW1(config-line)# access-class acl in 
+
+SW1(config)# username {name} seceret {password}
+
+C:\>ssh -l admin 192.168.2.253
+
+
