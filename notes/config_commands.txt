@@ -752,4 +752,39 @@ SW1(config)# username {name} seceret {password}
 
 C:\>ssh -l admin 192.168.2.253
 
+----------------------------------------------------------------------------------------------------
+Day 43 - FTP & TFTP (File Transfer Protocol) & (Trival File Transfer Protocol)
+
+$$$ TFTP Commands $$$
+
+R1(config)# show version
+
+R1(config)# show flash
+
+R1(config)#copy tftp flash
+Address or name of remote host?
+Source file name?
+Destination file name?
+<enter>
+
+R1(config)#boot system flash {filename}
+
+R1#write
+
+R1#reload
+
+R1#delete flash:{filename}
+
+$$$ FTP Commands $$$
+- Takes much longer the TFTP
+
+R1(config)#ip ftp username {username} {password}
+
+R1(config)#copy ftp flash
+Address or name of remote host?
+Source file name?
+Destination file name?
+<enter>
+
+
 
