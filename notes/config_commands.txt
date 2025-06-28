@@ -786,5 +786,22 @@ Source file name?
 Destination file name?
 <enter>
 
+----------------------------------------------------------------------------------------------------
+Day 44 - Static NAT
+
+R1# show ip nat translations
+
+R1#show ip nat statistics
+
+R1(config-if)# ip nat outside
+
+R1(config-if)# ip nat inside
+
+R1(config)#ip nat inside source static {local private ip address} {local global ip address}
+- 1 to 1 translation. Use host ip addresses, not networks
+
+R1# clear ip nat translation *
+
+
 
 
