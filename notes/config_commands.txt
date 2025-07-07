@@ -325,7 +325,7 @@ R1#show ip ospf interface gigabitEtherenet0/0/0
 R1(config)#no router ospf 1
 - Removes OSPF
 
-R1(config-router)#router ospf 4
+R1(config-router)#router ospf 1
 - Process ID after ospf. Only specific to the router. Other routers
 don't care
 
@@ -793,15 +793,60 @@ R1# show ip nat translations
 
 R1#show ip nat statistics
 
+R1(config)#int g0/1
 R1(config-if)# ip nat outside
 
+R1(config)#int g0/0
 R1(config-if)# ip nat inside
 
-R1(config)#ip nat inside source static {local private ip address} {local global ip address}
+R1(config)#ip nat inside source static {inside private ip address} {inside global ip address}
 - 1 to 1 translation. Use host ip addresses, not networks
 
 R1# clear ip nat translation *
 
+----------------------------------------------------------------------------------------------------
+Day 45 - Dynamic NAT
 
+R1(config)#int g0/1
+R1(config-if)# ip nat inside
 
+R1(config)#int g0/0
+R1(config-if)# ip nat outside
 
+R1(config)#access-list 1 permit 192.168.0.0 0.0.0.255
+- Define the traffic that should be translated
+- Traffic permited by this ACL will be translated
+
+R1(config)#ip nat pool POOL1 100.0.0.0 100.0.0.255 prefix-length 24
+- Define the pool of inside global IP addresses
+
+R1(config)#ip nat inside source list 1 pool POOl1
+- Applies the ACL and the pool to the router
+
+$$$ PAT(Network Address Translation Overload) $$$
+- Uses port numbers to translate IP address and persever unique global ips
+- ex. 192.168.0.1:54321 --> 100.0.0.1:54321
+- ex. 192.168.0.1:54322 --> 100.0.0.1:54322
+- The router uses the port numbers to complete the connection
+- Roughly the same config commands as regular Dynamic NAT
+
+R1(config)#int g0/1
+R1(config-if)# ip nat inside
+R1(config)#int g0/0
+R1(config-if)# ip nat outside
+
+R1(config)#access-list 1 permit 192.168.0.0 0.0.0.255
+- Tells the router which network address to translate
+- Always needed
+
+R1(config)#ip nat pool POOL1 100.0.0.0 100.0.0.3 netmask 255.255.255.0
+- Unless the network is really large, you probably only need a single inside
+global address using PAT. A few extras here for expansion
+
+R1(config)#ip nat inside source list 1 pool POOl1 overload
+- Applies the ACL and the pool to the router with overload
+
+R1(config)#ip nat inside source list 1 interface g0/0 overload
+- Another method of activing PAT 
+- Configure PAT by mapping the ACL to the interface and enable overload
+- No need to use the POOL, uses the IP of the nat outside interface
