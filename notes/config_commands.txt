@@ -343,6 +343,7 @@ for better design.
 
 R1(config-if)#interface GigabitEthernet0/1
 R1(config-if)# ip ospf 1 area 0
+- Internal or external?
 
 
 R1(config-router)#network 10.0.34.1 0.0.0.0 area 0
@@ -850,3 +851,19 @@ R1(config)#ip nat inside source list 1 interface g0/0 overload
 - Another method of activing PAT 
 - Configure PAT by mapping the ACL to the interface and enable overload
 - No need to use the POOL, uses the IP of the nat outside interface
+
+----------------------------------------------------------------------------------------------------
+Day 49 - Port Security
+
+SW1#show port-security interface g0/0
+
+SW1(config-if)#switchport security aging time 60
+SW1(config-if)#switchport mode access
+SW1(config-if)#switchport port-security
+- Ports must be in switchport to apply security
+
+SW2(config-if)#switchport port-security violation restrict
+SW2(config-if)#switchport port-security maximum 4
+SW2(config-if)#switchport port-security mac-address sticky
+SW2(config-if)#switchport port-security
+
