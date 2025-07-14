@@ -860,7 +860,7 @@ SW1#show port-security interface g0/0
 SW1(config-if)#switchport security aging time 60
 SW1(config-if)#switchport mode access
 SW1(config-if)#switchport port-security
-- Ports must be in switchport to apply security
+- Ports must be in switchport access/trunk to apply security. Not dynamic.
 
 SW2(config-if)#switchport port-security violation restrict
 SW2(config-if)#switchport port-security maximum 4
