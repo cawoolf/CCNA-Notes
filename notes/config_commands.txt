@@ -724,6 +724,16 @@ C:\>ipconfig /release
 
 C:\>ipconfig /all
 
+###Commands for configuring DHCP on a router####
+R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.9
+- Excludes a range of address from being assigned
+R1(config)#ip dhcp pool POOl1
+- Sets up the DHCP pool
+R1(dhcp-config)#network 192.168.1.0 255.255.255.0
+- Assigns dhcp to the target network
+R1(dhcp-config)#default-router 192.168.1.1
+- Sets the default gateway to be assigned to the hosts
+
 ----------------------------------------------------------------------------------------------------
 Day 42 - SSH
 
@@ -862,8 +872,19 @@ SW1(config-if)#switchport mode access
 SW1(config-if)#switchport port-security
 - Ports must be in switchport access/trunk to apply security. Not dynamic.
 
-SW2(config-if)#switchport port-security violation restrict
+SW2(config-if)#switchport port-security violation restrict/shutdown
 SW2(config-if)#switchport port-security maximum 4
 SW2(config-if)#switchport port-security mac-address sticky
 SW2(config-if)#switchport port-security
 
+----------------------------------------------------------------------------------------------------
+Day 50 - DHCP Snooping
+
+SW1(config)#ip dhcp snooping vlan 1
+- Set up DHCP snooping for the vlan
+
+Sw1(config-if)#ip dhcp snooping trust
+- Configure trusted interfaces
+
+Sw1(config-if)#no ip dhcp snooping information option
+- Need if the switch is not acting as a DHCP relay
