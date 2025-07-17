@@ -818,6 +818,13 @@ R1# clear ip nat translation *
 ----------------------------------------------------------------------------------------------------
 Day 45 - Dynamic NAT
 
+$$$ PAT(Network Address Translation Overload) $$$
+- Uses port numbers to translate IP address and persever unique global ips
+- ex. 192.168.0.1:54321 --> 100.0.0.1:54321
+- ex. 192.168.0.1:54322 --> 100.0.0.1:54322
+- The router uses the port numbers to complete the connection
+- Roughly the same config commands as regular Dynamic NAT
+
 R1(config)#int g0/1
 R1(config-if)# ip nat inside
 
@@ -833,13 +840,6 @@ R1(config)#ip nat pool POOL1 100.0.0.0 100.0.0.255 prefix-length 24
 
 R1(config)#ip nat inside source list 1 pool POOl1
 - Applies the ACL and the pool to the router
-
-$$$ PAT(Network Address Translation Overload) $$$
-- Uses port numbers to translate IP address and persever unique global ips
-- ex. 192.168.0.1:54321 --> 100.0.0.1:54321
-- ex. 192.168.0.1:54322 --> 100.0.0.1:54322
-- The router uses the port numbers to complete the connection
-- Roughly the same config commands as regular Dynamic NAT
 
 R1(config)#int g0/1
 R1(config-if)# ip nat inside
@@ -862,6 +862,7 @@ R1(config)#ip nat inside source list 1 interface g0/0 overload
 - Configure PAT by mapping the ACL to the interface and enable overload
 - No need to use the POOL, uses the IP of the nat outside interface
 
+
 ----------------------------------------------------------------------------------------------------
 Day 49 - Port Security
 
@@ -880,11 +881,41 @@ SW2(config-if)#switchport port-security
 ----------------------------------------------------------------------------------------------------
 Day 50 - DHCP Snooping
 
+$$$ DHCP Snooping Notes $$$
+- Protects against DHCP Starvation, Man-in-the-middle attacks
+- Filters DHCP messages on untrusted ports
+- All ports are untrusted by default
+- Normally uplink(pointed towards network infastructure) ports are configure as trusted
+- Downlink (interfaces pointed towards to end host) ports remain untrusted 
+- DHCP snooping doesn't inspect messages on trusted ports
+- On untrusted ports DHCP Server messages are discared 
+- For DHCP Client messages are checked against the DHCP
+Snooping Binding Table
+
+SW1#show ip dhcp snooping
+- Shows the tursted ports
+
 SW1(config)#ip dhcp snooping vlan 1
 - Set up DHCP snooping for the vlan
 
 Sw1(config-if)#ip dhcp snooping trust
 - Configure trusted interfaces
 
-Sw1(config-if)#no ip dhcp snooping information option
-- Need if the switch is not acting as a DHCP relay
+Sw1(config)#no ip dhcp snooping information option
+- Need if the switch is not acting as a DHCP relay. Layer 2 switches.
+- Fixes the Option 82 issues. Dropped by default on untrusted ports
+
+Sw1(config-if)#ip dhcp snooping limit rate 20
+- Limits the rate at which DHCP messages are allowed to
+enter an interface on a per sec basis
+- Protects against DHCP exhaustion attacks
+
+SW1(config)#errdisabled recovery cause dhcp-rate-limit
+- Automatically re-enables the interface after the timer
+expires. 
+
+###Steps to enabled DHCP Snooping on an interfaces###
+SW1(config)#ip dhcp snooping vlan 1
+SW1(config-if)#ip dhcp snooping trust
+SW1(config)#no ip dhcp snooping information option
+- For Layer 2 Switches
