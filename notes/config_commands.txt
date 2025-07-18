@@ -889,8 +889,7 @@ $$$ DHCP Snooping Notes $$$
 - Downlink (interfaces pointed towards to end host) ports remain untrusted 
 - DHCP snooping doesn't inspect messages on trusted ports
 - On untrusted ports DHCP Server messages are discared 
-- For DHCP Client messages are checked against the DHCP
-Snooping Binding Table
+- For DHCP Client messages are checked against the DHCP Snooping Binding Table
 
 SW1#show ip dhcp snooping
 - Shows the tursted ports
@@ -915,7 +914,31 @@ SW1(config)#errdisabled recovery cause dhcp-rate-limit
 expires. 
 
 ###Steps to enabled DHCP Snooping on an interfaces###
+SW1(config)#ip dhcp snooping
+- Configures ip dhcp snooping globally
 SW1(config)#ip dhcp snooping vlan 1
+- Also must be configured per vlan
 SW1(config-if)#ip dhcp snooping trust
 SW1(config)#no ip dhcp snooping information option
 - For Layer 2 Switches
+
+----------------------------------------------------------------------------------------------------
+Day 51 - Dynamic ARP Inspection
+
+$$$Dynamic ARP Inspection Notes$$$
+- Uplink ports must be trusted
+
+
+SW1#show ip arp inspection
+SW1#show ip arp inspection interfaces
+
+###Steps to enabled Dynamic ARP Inspection###
+SW1(config)#ip arp inspection vlan 1
+- Enables arp inspection on the vlan
+SW1(config)#ip arp inspection validate dst-mac ip src-mac
+- Enables all three types of ARP validation
+SW1(config)#interface gigabitEtherenet0/1
+SW1(config-if)#ip arp inspection trust
+- Trusts the uplink interface. Exempts it from ARP inspection
+
+
