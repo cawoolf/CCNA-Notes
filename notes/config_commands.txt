@@ -941,4 +941,7 @@ SW1(config)#interface gigabitEtherenet0/1
 SW1(config-if)#ip arp inspection trust
 - Trusts the uplink interface. Exempts it from ARP inspection
 
+----------------------------------------------------------------------------------------------------
+Day 52 - STP & FHRP Synchronization
+
 
